@@ -120,9 +120,10 @@
 
         // Function to call showPopup API
         function showPopup() {
-            var newDiv = document.createElement('div');
-            newDiv.textContent = JSON.stringify(Telegram.WebApp.webAppInitData.initDataUnsafe);
-            document.getElementsByTagName('body')[0].appendChild(newDiv);
+            // var newDiv = document.createElement('div');
+            console.dir(Telegram.WebApp)
+            // newDiv.textContent = JSON.stringify(Telegram.WebApp.webAppInitData);
+            // document.getElementsByTagName('body')[0].appendChild(newDiv);
             Telegram.WebApp.showPopup({
                 title: 'Title',
                 message: "Message",
