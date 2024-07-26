@@ -2635,6 +2635,7 @@ System.register("chunks:///_virtual/enc-utf16.js", ['./core.js'], function (expo
 System.register("chunks:///_virtual/env", [], function (exports) {
   return {
     execute: function () {
+      var HTML5 = exports('HTML5', true);
       var DEV = exports('DEV', false);
     }
   };
@@ -2890,7 +2891,492 @@ System.register("chunks:///_virtual/index-minimal.js", ['./cjs-loader.mjs', './w
   };
 });
 
-System.register("chunks:///_virtual/index.js", ['./cjs-loader.mjs', './sdk.js'], function (exports, module) {
+System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers.js'], function (exports) {
+  var _inheritsLoose, _assertThisInitialized, _wrapNativeSuper;
+  return {
+    setters: [function (module) {
+      _inheritsLoose = module.inheritsLoose;
+      _assertThisInitialized = module.assertThisInitialized;
+      _wrapNativeSuper = module.wrapNativeSuper;
+    }],
+    execute: function () {
+      exports({
+        isRGB: Q,
+        isRGBShort: ht,
+        json: g,
+        parseLaunchParams: X,
+        retrieveLaunchParams: vt,
+        searchParams: K,
+        serializeLaunchParams: yt,
+        serializeThemeParams: Ie,
+        toRGB: me
+      });
+      var V = exports('SDKError', /*#__PURE__*/function (_Error) {
+        _inheritsLoose(V, _Error);
+        function V(e, t, n) {
+          var _this4;
+          _this4 = _Error.call(this, t, {
+            cause: n
+          }) || this, _this4.type = e, Object.setPrototypeOf(_assertThisInitialized(_this4), V.prototype);
+          return _this4;
+        }
+        return V;
+      }( /*#__PURE__*/_wrapNativeSuper(Error)));
+      function f(s, e, t) {
+        return new V(s, e, t);
+      }
+      var Ye = exports('ERR_UNEXPECTED_TYPE', "ERR_UNEXPECTED_TYPE"),
+        ce = exports('ERR_PARSE', "ERR_PARSE");
+      function E() {
+        return f(Ye, "Value has unexpected type");
+      }
+      var D = /*#__PURE__*/function () {
+        function D(e, t, n) {
+          this.parser = e, this.isOptional = t, this.type = n;
+        }
+        /**
+         * Attempts to parse passed value
+         * @param value - value to parse.
+         * @throws {SDKError} ERR_PARSE
+         * @see ERR_PARSE
+         */
+        var _proto3 = D.prototype;
+        _proto3.parse = function parse(e) {
+          if (!(this.isOptional && e === void 0)) try {
+            return this.parser(e);
+          } catch (t) {
+            throw f(ce, "Unable to parse value" + (this.type ? " as " + this.type : ""), t);
+          }
+        };
+        _proto3.optional = function optional() {
+          return this.isOptional = !0, this;
+        };
+        return D;
+      }();
+      function S(s, e) {
+        return function () {
+          return new D(s, !1, e);
+        };
+      }
+      var b = exports('boolean', S(function (s) {
+        if (typeof s == "boolean") return s;
+        var e = String(s);
+        if (e === "1" || e === "true") return !0;
+        if (e === "0" || e === "false") return !1;
+        throw E();
+      }, "boolean"));
+      function pe(s, e) {
+        var t = {};
+        for (var n in s) {
+          var r = s[n];
+          if (!r) continue;
+          var i = void 0,
+            o = void 0;
+          if (typeof r == "function" || "parse" in r) i = n, o = typeof r == "function" ? r : r.parse.bind(r);else {
+            var a = r.type;
+            i = r.from || n, o = typeof a == "function" ? a : a.parse.bind(a);
+          }
+          try {
+            var _a = o(e(i));
+            _a !== void 0 && (t[n] = _a);
+          } catch (a) {
+            throw f(ce, "Unable to parse field \"" + n + "\"", a);
+          }
+        }
+        return t;
+      }
+      function he(s) {
+        var e = s;
+        if (typeof e == "string" && (e = JSON.parse(e)), typeof e != "object" || e === null || Array.isArray(e)) throw E();
+        return e;
+      }
+      function g(s, e) {
+        return new D(function (t) {
+          var n = he(t);
+          return pe(s, function (r) {
+            return n[r];
+          });
+        }, !1, e);
+      }
+      var y = exports('number', S(function (s) {
+          if (typeof s == "number") return s;
+          if (typeof s == "string") {
+            var e = Number(s);
+            if (!Number.isNaN(e)) return e;
+          }
+          throw E();
+        }, "number")),
+        h = exports('string', S(function (s) {
+          if (typeof s == "string" || typeof s == "number") return s.toString();
+          throw E();
+        }, "string"));
+      var st = {
+        clipboard_text_received: g({
+          req_id: h(),
+          data: function data(s) {
+            return s === null ? s : h().optional().parse(s);
+          }
+        }),
+        custom_method_invoked: g({
+          req_id: h(),
+          result: function result(s) {
+            return s;
+          },
+          error: h().optional()
+        }),
+        popup_closed: {
+          parse: function parse(s) {
+            return g({
+              button_id: function button_id(e) {
+                return e == null ? void 0 : h().parse(e);
+              }
+            }).parse(s != null ? s : {});
+          }
+        },
+        viewport_changed: g({
+          height: y(),
+          width: function width(s) {
+            return s == null ? window.innerWidth : y().parse(s);
+          },
+          is_state_stable: b(),
+          is_expanded: b()
+        })
+      };
+      function Q(s) {
+        return /^#[\da-f]{6}$/i.test(s);
+      }
+      function ht(s) {
+        return /^#[\da-f]{3}$/i.test(s);
+      }
+      function me(s) {
+        var e = s.replace(/\s/g, "").toLowerCase();
+        if (Q(e)) return e;
+        if (ht(e)) {
+          var n = "#";
+          for (var r = 0; r < 3; r += 1) n += e[1 + r].repeat(2);
+          return n;
+        }
+        var t = e.match(/^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/) || e.match(/^rgba\((\d{1,3}),(\d{1,3}),(\d{1,3}),\d{1,3}\)$/);
+        if (!t) throw new Error("Value \"" + s + "\" does not satisfy any of known RGB formats.");
+        return t.slice(1).reduce(function (n, r) {
+          var i = parseInt(r, 10).toString(16);
+          return n + (i.length === 1 ? "0" : "") + i;
+        }, "#");
+      }
+      var Ee = exports('date', S(function (s) {
+        return s instanceof Date ? s : new Date(y().parse(s) * 1e3);
+      }, "Date"));
+      function K(s, e) {
+        return new D(function (t) {
+          if (typeof t != "string" && !(t instanceof URLSearchParams)) throw E();
+          var n = typeof t == "string" ? new URLSearchParams(t) : t;
+          return pe(s, function (r) {
+            var i = n.get(r);
+            return i === null ? void 0 : i;
+          });
+        }, !1, e);
+      }
+      var dt = g({
+          id: y(),
+          type: h(),
+          title: h(),
+          photoUrl: {
+            type: h().optional(),
+            from: "photo_url"
+          },
+          username: h().optional()
+        }, "Chat").optional(),
+        ne = g({
+          addedToAttachmentMenu: {
+            type: b().optional(),
+            from: "added_to_attachment_menu"
+          },
+          allowsWriteToPm: {
+            type: b().optional(),
+            from: "allows_write_to_pm"
+          },
+          firstName: {
+            type: h(),
+            from: "first_name"
+          },
+          id: y(),
+          isBot: {
+            type: b().optional(),
+            from: "is_bot"
+          },
+          isPremium: {
+            type: b().optional(),
+            from: "is_premium"
+          },
+          languageCode: {
+            type: h().optional(),
+            from: "language_code"
+          },
+          lastName: {
+            type: h().optional(),
+            from: "last_name"
+          },
+          photoUrl: {
+            type: h().optional(),
+            from: "photo_url"
+          },
+          username: h().optional()
+        }, "User").optional();
+      function Se() {
+        return K({
+          authDate: {
+            type: Ee(),
+            from: "auth_date"
+          },
+          canSendAfter: {
+            type: y().optional(),
+            from: "can_send_after"
+          },
+          chat: dt,
+          chatInstance: {
+            type: h().optional(),
+            from: "chat_instance"
+          },
+          chatType: {
+            type: h().optional(),
+            from: "chat_type"
+          },
+          hash: h(),
+          queryId: {
+            type: h().optional(),
+            from: "query_id"
+          },
+          receiver: ne,
+          startParam: {
+            type: h().optional(),
+            from: "start_param"
+          },
+          user: ne
+        }, "InitData");
+      }
+      var _t = exports('rgb', S(function (s) {
+        return me(h().parse(s));
+      }, "rgb"));
+      function ft(s) {
+        return s.replace(/_[a-z]/g, function (e) {
+          return e[1].toUpperCase();
+        });
+      }
+      function gt(s) {
+        return s.replace(/[A-Z]/g, function (e) {
+          return "_" + e.toLowerCase();
+        });
+      }
+      var Pe = S(function (s) {
+        var e = _t().optional();
+        return Object.entries(he(s)).reduce(function (t, _ref8) {
+          var n = _ref8[0],
+            r = _ref8[1];
+          return t[ft(n)] = e.parse(r), t;
+        }, {});
+      }, "ThemeParams");
+      function X(s) {
+        return K({
+          botInline: {
+            type: b().optional(),
+            from: "tgWebAppBotInline"
+          },
+          initData: {
+            type: Se().optional(),
+            from: "tgWebAppData"
+          },
+          initDataRaw: {
+            type: h().optional(),
+            from: "tgWebAppData"
+          },
+          platform: {
+            type: h(),
+            from: "tgWebAppPlatform"
+          },
+          showSettings: {
+            type: b().optional(),
+            from: "tgWebAppShowSettings"
+          },
+          startParam: {
+            type: h().optional(),
+            from: "tgWebAppStartParam"
+          },
+          themeParams: {
+            type: Pe(),
+            from: "tgWebAppThemeParams"
+          },
+          version: {
+            type: h(),
+            from: "tgWebAppVersion"
+          }
+        }).parse(s);
+      }
+      function xe(s) {
+        return X(s.replace(/^[^?#]*[?#]/, "").replace(/[?#]/g, "&"));
+      }
+      function wt() {
+        return xe(window.location.href);
+      }
+      function Ce() {
+        return performance.getEntriesByType("navigation")[0];
+      }
+      function bt() {
+        var s = Ce();
+        if (!s) throw new Error("Unable to get first navigation entry.");
+        return xe(s.name);
+      }
+      function Te(s) {
+        return "telegram-apps/" + s.replace(/[A-Z]/g, function (e) {
+          return "-" + e.toLowerCase();
+        });
+      }
+      function Re(s, e) {
+        sessionStorage.setItem(Te(s), JSON.stringify(e));
+      }
+      function Ae(s) {
+        var e = sessionStorage.getItem(Te(s));
+        try {
+          return e ? JSON.parse(e) : void 0;
+        } catch (_unused3) {}
+      }
+      function mt() {
+        return X(Ae("launchParams") || "");
+      }
+      function Ie(s) {
+        return JSON.stringify(Object.fromEntries(Object.entries(s).map(function (_ref9) {
+          var e = _ref9[0],
+            t = _ref9[1];
+          return [gt(e), t];
+        })));
+      }
+      function yt(s) {
+        var e = s.initDataRaw,
+          t = s.themeParams,
+          n = s.platform,
+          r = s.version,
+          i = s.showSettings,
+          o = s.startParam,
+          a = s.botInline,
+          p = new URLSearchParams();
+        return p.set("tgWebAppPlatform", n), p.set("tgWebAppThemeParams", Ie(t)), p.set("tgWebAppVersion", r), e && p.set("tgWebAppData", e), o && p.set("tgWebAppStartParam", o), typeof i == "boolean" && p.set("tgWebAppShowSettings", i ? "1" : "0"), typeof a == "boolean" && p.set("tgWebAppBotInline", a ? "1" : "0"), p.toString();
+      }
+      function qe(s) {
+        Re("launchParams", yt(s));
+      }
+      function vt() {
+        var s = [];
+        for (var _i = 0, _arr = [
+          // Try to retrieve launch parameters from the current location. This method can return
+          // nothing in case, location was changed, and then the page was reloaded.
+          wt,
+          // Then, try using the lower level API - window.performance.
+          bt,
+          // Finally, try to extract launch parameters from the session storage.
+          mt]; _i < _arr.length; _i++) {
+          var e = _arr[_i];
+          try {
+            var t = e();
+            return qe(t), t;
+          } catch (t) {
+            s.push(t instanceof Error ? t.message : JSON.stringify(t));
+          }
+        }
+        throw new Error(["Unable to retrieve launch parameters from any known source. Perhaps, you have opened your app outside Telegram?\n", "📖 Refer to docs for more information:", "https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk/environment\n", "Collected errors:", s.map(function (e) {
+          return "\u2014 " + e;
+        })].join("\n"));
+      }
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index.mjs_cjs=&original=.js", ['./index2.js', './cjs-loader.mjs'], function (exports, module) {
+  var __cjsMetaURL, loader;
+  return {
+    setters: [function (module) {
+      __cjsMetaURL = module.__cjsMetaURL;
+      var _setter = {};
+      _setter.__cjsMetaURL = module.__cjsMetaURL;
+      _setter.default = module.default;
+      exports(_setter);
+    }, function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      // I am the facade module who provides access to the CommonJS module './index.js'~
+      if (!__cjsMetaURL) {
+        loader.throwInvalidWrapper('./index.js', module.meta.url);
+      }
+      loader.require(__cjsMetaURL);
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index10.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = pool;
+
+        /**
+         * An allocator as used by {@link util.pool}.
+         * @typedef PoolAllocator
+         * @type {function}
+         * @param {number} size Buffer size
+         * @returns {Uint8Array} Buffer
+         */
+
+        /**
+         * A slicer as used by {@link util.pool}.
+         * @typedef PoolSlicer
+         * @type {function}
+         * @param {number} start Start offset
+         * @param {number} end End offset
+         * @returns {Uint8Array} Buffer slice
+         * @this {Uint8Array}
+         */
+
+        /**
+         * A general purpose buffer pool.
+         * @memberof util
+         * @function
+         * @param {PoolAllocator} alloc Allocator
+         * @param {PoolSlicer} slice Slicer
+         * @param {number} [size=8192] Slab size
+         * @returns {PoolAllocator} Pooled allocator
+         */
+        function pool(alloc, slice, size) {
+          var SIZE = size || 8192;
+          var MAX = SIZE >>> 1;
+          var slab = null;
+          var offset = SIZE;
+          return function pool_alloc(size) {
+            if (size < 1 || size > MAX) return alloc(size);
+            if (offset + size > SIZE) {
+              slab = alloc(SIZE);
+              offset = 0;
+            }
+            var buf = slice.call(slab, offset, offset += size);
+            if (offset & 7)
+              // align to 32 bit
+              offset = (offset | 7) + 1;
+            return buf;
+          };
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index2.js", ['./cjs-loader.mjs', './sdk.js'], function (exports, module) {
   var loader, __cjsMetaURL$1;
   return {
     setters: [function (module) {
@@ -2923,29 +3409,7 @@ System.register("chunks:///_virtual/index.js", ['./cjs-loader.mjs', './sdk.js'],
   };
 });
 
-System.register("chunks:///_virtual/index.mjs_cjs=&original=.js", ['./index.js', './cjs-loader.mjs'], function (exports, module) {
-  var __cjsMetaURL, loader;
-  return {
-    setters: [function (module) {
-      __cjsMetaURL = module.__cjsMetaURL;
-      var _setter = {};
-      _setter.__cjsMetaURL = module.__cjsMetaURL;
-      _setter.default = module.default;
-      exports(_setter);
-    }, function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      // I am the facade module who provides access to the CommonJS module './index.js'~
-      if (!__cjsMetaURL) {
-        loader.throwInvalidWrapper('./index.js', module.meta.url);
-      }
-      loader.require(__cjsMetaURL);
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index2.js", ['./core.js', './x64-core.js', './cipher-core.js', './enc-utf16.js', './enc-base64.js', './enc-base64url.js', './md5.js', './sha1.js', './sha224.js', './sha256.js', './sha384.js', './sha512.js', './sha3.js', './ripemd160.js', './pbkdf2.js', './evpkdf.js', './aes.js', './tripledes.js', './rabbit.js', './rabbit-legacy.js', './rc4.js', './blowfish.js', './mode-cfb.js', './mode-ctr.js', './mode-ctr-gladman.js', './mode-ecb.js', './mode-ofb.js', './pad-ansix923.js', './pad-iso10126.js', './pad-iso97971.js', './pad-nopadding.js', './pad-zeropadding.js', './format-hex.js'], function (exports) {
+System.register("chunks:///_virtual/index3.js", ['./core.js', './x64-core.js', './cipher-core.js', './enc-utf16.js', './enc-base64.js', './enc-base64url.js', './md5.js', './sha1.js', './sha224.js', './sha256.js', './sha384.js', './sha512.js', './sha3.js', './ripemd160.js', './pbkdf2.js', './evpkdf.js', './aes.js', './tripledes.js', './rabbit.js', './rabbit-legacy.js', './rc4.js', './blowfish.js', './mode-cfb.js', './mode-ctr.js', './mode-ctr-gladman.js', './mode-ecb.js', './mode-ofb.js', './pad-ansix923.js', './pad-iso10126.js', './pad-iso97971.js', './pad-nopadding.js', './pad-zeropadding.js', './format-hex.js'], function (exports) {
   var Base, WordArray, BufferedBlockAlgorithm, Hasher, Hex, Latin1, Utf8, HMAC, X64Word, X64WordArray, Cipher, StreamCipher, BlockCipherMode, BlockCipher, CipherParams, SerializableCipher, PasswordBasedCipher, CBC, Pkcs7, OpenSSLFormatter, OpenSSLKdf, Utf16, Utf16BE, Utf16LE, Base64, Base64url, MD5Algo, MD5, HmacMD5, SHA1Algo, SHA1, HmacSHA1, SHA224Algo, SHA224, HmacSHA224, SHA256Algo, SHA256, HmacSHA256, SHA384Algo, SHA384, HmacSHA384, SHA512Algo, SHA512, HmacSHA512, SHA3Algo, SHA3, HmacSHA3, RIPEMD160Algo, RIPEMD160, HmacRIPEMD160, PBKDF2Algo, PBKDF2, EvpKDFAlgo, EvpKDF, AESAlgo, AES, DESAlgo, TripleDESAlgo, DES, TripleDES, RabbitAlgo, Rabbit, RabbitLegacyAlgo, RabbitLegacy, RC4Algo, RC4DropAlgo, RC4, RC4Drop, BlowfishAlgo, Blowfish, CFB, CTR, CTRGladman, ECB, OFB, AnsiX923, Iso10126, Iso97971, NoPadding, ZeroPadding, HexFormatter;
   return {
     setters: [function (module) {
@@ -3167,7 +3631,122 @@ System.register("chunks:///_virtual/index2.js", ['./core.js', './x64-core.js', '
   };
 });
 
-System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (exports, module) {
+System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = EventEmitter;
+
+        /**
+         * Constructs a new event emitter instance.
+         * @classdesc A minimal event emitter.
+         * @memberof util
+         * @constructor
+         */
+        function EventEmitter() {
+          /**
+           * Registered listeners.
+           * @type {Object.<string,*>}
+           * @private
+           */
+          this._listeners = {};
+        }
+
+        /**
+         * Registers an event listener.
+         * @param {string} evt Event name
+         * @param {function} fn Listener
+         * @param {*} [ctx] Listener context
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.on = function on(evt, fn, ctx) {
+          (this._listeners[evt] || (this._listeners[evt] = [])).push({
+            fn: fn,
+            ctx: ctx || this
+          });
+          return this;
+        };
+
+        /**
+         * Removes an event listener or any matching listeners if arguments are omitted.
+         * @param {string} [evt] Event name. Removes all listeners if omitted.
+         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.off = function off(evt, fn) {
+          if (evt === undefined) this._listeners = {};else {
+            if (fn === undefined) this._listeners[evt] = [];else {
+              var listeners = this._listeners[evt];
+              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
+            }
+          }
+          return this;
+        };
+
+        /**
+         * Emits an event by calling its listeners with the specified arguments.
+         * @param {string} evt Event name
+         * @param {...*} args Arguments
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.emit = function emit(evt) {
+          var listeners = this._listeners[evt];
+          if (listeners) {
+            var args = [],
+              i = 1;
+            for (; i < arguments.length;) args.push(arguments[i++]);
+            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
+          }
+          return this;
+        };
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = inquire;
+
+        /**
+         * Requires a module only if available.
+         * @memberof util
+         * @param {string} moduleName Module to require
+         * @returns {?Object} Required module if available and not empty, otherwise `null`
+         */
+        function inquire(moduleName) {
+          try {
+            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
+            if (mod && (mod.length || Object.keys(mod).length)) return mod;
+          } catch (e) {} // eslint-disable-line no-empty
+          return null;
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -3316,7 +3895,118 @@ System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (
   };
 });
 
-System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
+System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        /**
+         * A minimal UTF8 implementation for number arrays.
+         * @memberof util
+         * @namespace
+         */
+        var utf8 = exports;
+
+        /**
+         * Calculates the UTF8 byte length of a string.
+         * @param {string} string String
+         * @returns {number} Byte length
+         */
+        utf8.length = function utf8_length(string) {
+          var len = 0,
+            c = 0;
+          for (var i = 0; i < string.length; ++i) {
+            c = string.charCodeAt(i);
+            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
+              ++i;
+              len += 4;
+            } else len += 3;
+          }
+          return len;
+        };
+
+        /**
+         * Reads UTF8 bytes as a string.
+         * @param {Uint8Array} buffer Source buffer
+         * @param {number} start Source start
+         * @param {number} end Source end
+         * @returns {string} String read
+         */
+        utf8.read = function utf8_read(buffer, start, end) {
+          var len = end - start;
+          if (len < 1) return "";
+          var parts = null,
+            chunk = [],
+            i = 0,
+            // char offset
+            t; // temporary
+          while (start < end) {
+            t = buffer[start++];
+            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
+              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
+              chunk[i++] = 0xD800 + (t >> 10);
+              chunk[i++] = 0xDC00 + (t & 1023);
+            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
+            if (i > 8191) {
+              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+              i = 0;
+            }
+          }
+          if (parts) {
+            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+            return parts.join("");
+          }
+          return String.fromCharCode.apply(String, chunk.slice(0, i));
+        };
+
+        /**
+         * Writes a string as UTF8 bytes.
+         * @param {string} string Source string
+         * @param {Uint8Array} buffer Destination buffer
+         * @param {number} offset Destination offset
+         * @returns {number} Bytes written
+         */
+        utf8.write = function utf8_write(string, buffer, offset) {
+          var start = offset,
+            c1,
+            // character 1
+            c2; // character 2
+          for (var i = 0; i < string.length; ++i) {
+            c1 = string.charCodeAt(i);
+            if (c1 < 128) {
+              buffer[offset++] = c1;
+            } else if (c1 < 2048) {
+              buffer[offset++] = c1 >> 6 | 192;
+              buffer[offset++] = c1 & 63 | 128;
+            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
+              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
+              ++i;
+              buffer[offset++] = c1 >> 18 | 240;
+              buffer[offset++] = c1 >> 12 & 63 | 128;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            } else {
+              buffer[offset++] = c1 >> 12 | 224;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            }
+          }
+          return offset - start;
+        };
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index8.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -3629,118 +4319,7 @@ System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (
   };
 });
 
-System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        /**
-         * A minimal UTF8 implementation for number arrays.
-         * @memberof util
-         * @namespace
-         */
-        var utf8 = exports;
-
-        /**
-         * Calculates the UTF8 byte length of a string.
-         * @param {string} string String
-         * @returns {number} Byte length
-         */
-        utf8.length = function utf8_length(string) {
-          var len = 0,
-            c = 0;
-          for (var i = 0; i < string.length; ++i) {
-            c = string.charCodeAt(i);
-            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
-              ++i;
-              len += 4;
-            } else len += 3;
-          }
-          return len;
-        };
-
-        /**
-         * Reads UTF8 bytes as a string.
-         * @param {Uint8Array} buffer Source buffer
-         * @param {number} start Source start
-         * @param {number} end Source end
-         * @returns {string} String read
-         */
-        utf8.read = function utf8_read(buffer, start, end) {
-          var len = end - start;
-          if (len < 1) return "";
-          var parts = null,
-            chunk = [],
-            i = 0,
-            // char offset
-            t; // temporary
-          while (start < end) {
-            t = buffer[start++];
-            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
-              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
-              chunk[i++] = 0xD800 + (t >> 10);
-              chunk[i++] = 0xDC00 + (t & 1023);
-            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-            if (i > 8191) {
-              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-              i = 0;
-            }
-          }
-          if (parts) {
-            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-            return parts.join("");
-          }
-          return String.fromCharCode.apply(String, chunk.slice(0, i));
-        };
-
-        /**
-         * Writes a string as UTF8 bytes.
-         * @param {string} string Source string
-         * @param {Uint8Array} buffer Destination buffer
-         * @param {number} offset Destination offset
-         * @returns {number} Bytes written
-         */
-        utf8.write = function utf8_write(string, buffer, offset) {
-          var start = offset,
-            c1,
-            // character 1
-            c2; // character 2
-          for (var i = 0; i < string.length; ++i) {
-            c1 = string.charCodeAt(i);
-            if (c1 < 128) {
-              buffer[offset++] = c1;
-            } else if (c1 < 2048) {
-              buffer[offset++] = c1 >> 6 | 192;
-              buffer[offset++] = c1 & 63 | 128;
-            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
-              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
-              ++i;
-              buffer[offset++] = c1 >> 18 | 240;
-              buffer[offset++] = c1 >> 12 & 63 | 128;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            } else {
-              buffer[offset++] = c1 >> 12 | 224;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            }
-          }
-          return offset - start;
-        };
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
+System.register("chunks:///_virtual/index9.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -3795,186 +4374,6 @@ System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (
               }
             }
           });
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = EventEmitter;
-
-        /**
-         * Constructs a new event emitter instance.
-         * @classdesc A minimal event emitter.
-         * @memberof util
-         * @constructor
-         */
-        function EventEmitter() {
-          /**
-           * Registered listeners.
-           * @type {Object.<string,*>}
-           * @private
-           */
-          this._listeners = {};
-        }
-
-        /**
-         * Registers an event listener.
-         * @param {string} evt Event name
-         * @param {function} fn Listener
-         * @param {*} [ctx] Listener context
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.on = function on(evt, fn, ctx) {
-          (this._listeners[evt] || (this._listeners[evt] = [])).push({
-            fn: fn,
-            ctx: ctx || this
-          });
-          return this;
-        };
-
-        /**
-         * Removes an event listener or any matching listeners if arguments are omitted.
-         * @param {string} [evt] Event name. Removes all listeners if omitted.
-         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.off = function off(evt, fn) {
-          if (evt === undefined) this._listeners = {};else {
-            if (fn === undefined) this._listeners[evt] = [];else {
-              var listeners = this._listeners[evt];
-              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
-            }
-          }
-          return this;
-        };
-
-        /**
-         * Emits an event by calling its listeners with the specified arguments.
-         * @param {string} evt Event name
-         * @param {...*} args Arguments
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.emit = function emit(evt) {
-          var listeners = this._listeners[evt];
-          if (listeners) {
-            var args = [],
-              i = 1;
-            for (; i < arguments.length;) args.push(arguments[i++]);
-            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
-          }
-          return this;
-        };
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index8.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = inquire;
-
-        /**
-         * Requires a module only if available.
-         * @memberof util
-         * @param {string} moduleName Module to require
-         * @returns {?Object} Required module if available and not empty, otherwise `null`
-         */
-        function inquire(moduleName) {
-          try {
-            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
-            if (mod && (mod.length || Object.keys(mod).length)) return mod;
-          } catch (e) {} // eslint-disable-line no-empty
-          return null;
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index9.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = pool;
-
-        /**
-         * An allocator as used by {@link util.pool}.
-         * @typedef PoolAllocator
-         * @type {function}
-         * @param {number} size Buffer size
-         * @returns {Uint8Array} Buffer
-         */
-
-        /**
-         * A slicer as used by {@link util.pool}.
-         * @typedef PoolSlicer
-         * @type {function}
-         * @param {number} start Start offset
-         * @param {number} end End offset
-         * @returns {Uint8Array} Buffer slice
-         * @this {Uint8Array}
-         */
-
-        /**
-         * A general purpose buffer pool.
-         * @memberof util
-         * @function
-         * @param {PoolAllocator} alloc Allocator
-         * @param {PoolSlicer} slice Slicer
-         * @param {number} [size=8192] Slab size
-         * @returns {PoolAllocator} Pooled allocator
-         */
-        function pool(alloc, slice, size) {
-          var SIZE = size || 8192;
-          var MAX = SIZE >>> 1;
-          var slab = null;
-          var offset = SIZE;
-          return function pool_alloc(size) {
-            if (size < 1 || size > MAX) return alloc(size);
-            if (offset + size > SIZE) {
-              slab = alloc(SIZE);
-              offset = 0;
-            }
-            var buf = slice.call(slab, offset, offset += size);
-            if (offset & 7)
-              // align to 32 bit
-              offset = (offset | 7) + 1;
-            return buf;
-          };
         }
 
         // #endregion ORIGINAL CODE
@@ -4431,7 +4830,7 @@ System.register("chunks:///_virtual/minimal.js", ['./cjs-loader.mjs', './index-m
   };
 });
 
-System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index6.js', './index3.js', './index7.js', './index4.js', './index8.js', './index5.js', './index9.js', './longbits.js'], function (exports, module) {
+System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index9.js', './index6.js', './index4.js', './index8.js', './index5.js', './index7.js', './index10.js', './longbits.js'], function (exports, module) {
   var loader, __cjsMetaURL$1, __cjsMetaURL$2, __cjsMetaURL$3, __cjsMetaURL$4, __cjsMetaURL$5, __cjsMetaURL$6, __cjsMetaURL$7, __cjsMetaURL$8;
   return {
     setters: [function (module) {
