@@ -4,13 +4,10 @@
     "name": "resources",
     "deps": [],
     "uuids": [
-        "07dc694cb",
+        "0dc6d2cf9",
         "12268ae6-3328-4953-a6fe-10c3526f7eef",
         "12268ae6-3328-4953-a6fe-10c3526f7eef@6c48a",
         "12268ae6-3328-4953-a6fe-10c3526f7eef@f9941",
-        "15674020-0463-463d-b79b-eed26e24555b",
-        "15674020-0463-463d-b79b-eed26e24555b@6c48a",
-        "15674020-0463-463d-b79b-eed26e24555b@f9941",
         "1a578acc-5c33-40de-9931-546b911e6fa8",
         "1a578acc-5c33-40de-9931-546b911e6fa8@6c48a",
         "1a578acc-5c33-40de-9931-546b911e6fa8@f9941",
@@ -168,21 +165,6 @@
             "cc.SpriteFrame",
             1
         ],
-        "15674020-0463-463d-b79b-eed26e24555b": [
-            "FGUI/GamePlay_atlas0_1",
-            "cc.ImageAsset",
-            1
-        ],
-        "15674020-0463-463d-b79b-eed26e24555b@6c48a": [
-            "FGUI/GamePlay_atlas0_1/texture",
-            "cc.Texture2D",
-            1
-        ],
-        "15674020-0463-463d-b79b-eed26e24555b@f9941": [
-            "FGUI/GamePlay_atlas0_1/spriteFrame",
-            "cc.SpriteFrame",
-            1
-        ],
         "3afbc416-03a4-408d-91dc-1858b603bfe6": [
             "FGUI/Launch",
             "cc.BufferAsset",
@@ -286,7 +268,7 @@
     },
     "scenes": {},
     "packs": {
-        "07dc694cb": [
+        "0dc6d2cf9": [
             "1a578acc-5c33-40de-9931-546b911e6fa8@6c48a",
             "3ab6c98b-b428-4505-8017-9d554b8bdb92@6c48a",
             "9f60b65b-0381-4bea-a0a7-f3910868a525@6c48a",
@@ -295,7 +277,6 @@
             "12268ae6-3328-4953-a6fe-10c3526f7eef@6c48a",
             "715602ce-9d5c-4a50-b131-3bb70088596d@6c48a",
             "6403663e-22ac-4994-b958-5922436343ac@6c48a",
-            "15674020-0463-463d-b79b-eed26e24555b@6c48a",
             "c1aaaefc-f8b8-4696-a41a-5cc939666494@6c48a",
             "cda99ba9-670d-4d42-817e-4772ab07a8fc@6c48a",
             "d72becce-fccc-4061-953b-b36c6a70b10b@6c48a"
