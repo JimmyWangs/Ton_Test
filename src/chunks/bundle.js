@@ -2891,16 +2891,16 @@ System.register("chunks:///_virtual/index-minimal.js", ['./cjs-loader.mjs', './w
 });
 
 System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers.js'], function (exports) {
-  var _inheritsLoose, _assertThisInitialized, _wrapNativeSuper, _extends, _createClass, _asyncToGenerator, _regeneratorRuntime;
+  var _inheritsLoose, _assertThisInitialized, _wrapNativeSuper, _extends, _asyncToGenerator, _regeneratorRuntime, _createClass;
   return {
     setters: [function (module) {
       _inheritsLoose = module.inheritsLoose;
       _assertThisInitialized = module.assertThisInitialized;
       _wrapNativeSuper = module.wrapNativeSuper;
       _extends = module.extends;
-      _createClass = module.createClass;
       _asyncToGenerator = module.asyncToGenerator;
       _regeneratorRuntime = module.regeneratorRuntime;
+      _createClass = module.createClass;
     }],
     execute: function () {
       exports({
@@ -4182,98 +4182,69 @@ System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (
     execute: function () {
       var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
       loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = EventEmitter;
+
         /**
-         * A minimal UTF8 implementation for number arrays.
+         * Constructs a new event emitter instance.
+         * @classdesc A minimal event emitter.
          * @memberof util
-         * @namespace
+         * @constructor
          */
-        var utf8 = exports;
+        function EventEmitter() {
+          /**
+           * Registered listeners.
+           * @type {Object.<string,*>}
+           * @private
+           */
+          this._listeners = {};
+        }
 
         /**
-         * Calculates the UTF8 byte length of a string.
-         * @param {string} string String
-         * @returns {number} Byte length
+         * Registers an event listener.
+         * @param {string} evt Event name
+         * @param {function} fn Listener
+         * @param {*} [ctx] Listener context
+         * @returns {util.EventEmitter} `this`
          */
-        utf8.length = function utf8_length(string) {
-          var len = 0,
-            c = 0;
-          for (var i = 0; i < string.length; ++i) {
-            c = string.charCodeAt(i);
-            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
-              ++i;
-              len += 4;
-            } else len += 3;
-          }
-          return len;
+        EventEmitter.prototype.on = function on(evt, fn, ctx) {
+          (this._listeners[evt] || (this._listeners[evt] = [])).push({
+            fn: fn,
+            ctx: ctx || this
+          });
+          return this;
         };
 
         /**
-         * Reads UTF8 bytes as a string.
-         * @param {Uint8Array} buffer Source buffer
-         * @param {number} start Source start
-         * @param {number} end Source end
-         * @returns {string} String read
+         * Removes an event listener or any matching listeners if arguments are omitted.
+         * @param {string} [evt] Event name. Removes all listeners if omitted.
+         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
+         * @returns {util.EventEmitter} `this`
          */
-        utf8.read = function utf8_read(buffer, start, end) {
-          var len = end - start;
-          if (len < 1) return "";
-          var parts = null,
-            chunk = [],
-            i = 0,
-            // char offset
-            t; // temporary
-          while (start < end) {
-            t = buffer[start++];
-            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
-              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
-              chunk[i++] = 0xD800 + (t >> 10);
-              chunk[i++] = 0xDC00 + (t & 1023);
-            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-            if (i > 8191) {
-              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-              i = 0;
+        EventEmitter.prototype.off = function off(evt, fn) {
+          if (evt === undefined) this._listeners = {};else {
+            if (fn === undefined) this._listeners[evt] = [];else {
+              var listeners = this._listeners[evt];
+              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
             }
           }
-          if (parts) {
-            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-            return parts.join("");
-          }
-          return String.fromCharCode.apply(String, chunk.slice(0, i));
+          return this;
         };
 
         /**
-         * Writes a string as UTF8 bytes.
-         * @param {string} string Source string
-         * @param {Uint8Array} buffer Destination buffer
-         * @param {number} offset Destination offset
-         * @returns {number} Bytes written
+         * Emits an event by calling its listeners with the specified arguments.
+         * @param {string} evt Event name
+         * @param {...*} args Arguments
+         * @returns {util.EventEmitter} `this`
          */
-        utf8.write = function utf8_write(string, buffer, offset) {
-          var start = offset,
-            c1,
-            // character 1
-            c2; // character 2
-          for (var i = 0; i < string.length; ++i) {
-            c1 = string.charCodeAt(i);
-            if (c1 < 128) {
-              buffer[offset++] = c1;
-            } else if (c1 < 2048) {
-              buffer[offset++] = c1 >> 6 | 192;
-              buffer[offset++] = c1 & 63 | 128;
-            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
-              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
-              ++i;
-              buffer[offset++] = c1 >> 18 | 240;
-              buffer[offset++] = c1 >> 12 & 63 | 128;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            } else {
-              buffer[offset++] = c1 >> 12 | 224;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            }
+        EventEmitter.prototype.emit = function emit(evt) {
+          var listeners = this._listeners[evt];
+          if (listeners) {
+            var args = [],
+              i = 1;
+            for (; i < arguments.length;) args.push(arguments[i++]);
+            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
           }
-          return offset - start;
+          return this;
         };
 
         // #endregion ORIGINAL CODE
@@ -4285,6 +4256,39 @@ System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (
 });
 
 System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = inquire;
+
+        /**
+         * Requires a module only if available.
+         * @memberof util
+         * @param {string} moduleName Module to require
+         * @returns {?Object} Required module if available and not empty, otherwise `null`
+         */
+        function inquire(moduleName) {
+          try {
+            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
+            if (mod && (mod.length || Object.keys(mod).length)) return mod;
+          } catch (e) {} // eslint-disable-line no-empty
+          return null;
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -4597,7 +4601,7 @@ System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (
   };
 });
 
-System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
+System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -4746,39 +4750,6 @@ System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (
   };
 });
 
-System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = inquire;
-
-        /**
-         * Requires a module only if available.
-         * @memberof util
-         * @param {string} moduleName Module to require
-         * @returns {?Object} Required module if available and not empty, otherwise `null`
-         */
-        function inquire(moduleName) {
-          try {
-            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
-            if (mod && (mod.length || Object.keys(mod).length)) return mod;
-          } catch (e) {} // eslint-disable-line no-empty
-          return null;
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
 System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
@@ -4788,69 +4759,98 @@ System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (
     execute: function () {
       var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
       loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = EventEmitter;
-
         /**
-         * Constructs a new event emitter instance.
-         * @classdesc A minimal event emitter.
+         * A minimal UTF8 implementation for number arrays.
          * @memberof util
-         * @constructor
+         * @namespace
          */
-        function EventEmitter() {
-          /**
-           * Registered listeners.
-           * @type {Object.<string,*>}
-           * @private
-           */
-          this._listeners = {};
-        }
+        var utf8 = exports;
 
         /**
-         * Registers an event listener.
-         * @param {string} evt Event name
-         * @param {function} fn Listener
-         * @param {*} [ctx] Listener context
-         * @returns {util.EventEmitter} `this`
+         * Calculates the UTF8 byte length of a string.
+         * @param {string} string String
+         * @returns {number} Byte length
          */
-        EventEmitter.prototype.on = function on(evt, fn, ctx) {
-          (this._listeners[evt] || (this._listeners[evt] = [])).push({
-            fn: fn,
-            ctx: ctx || this
-          });
-          return this;
+        utf8.length = function utf8_length(string) {
+          var len = 0,
+            c = 0;
+          for (var i = 0; i < string.length; ++i) {
+            c = string.charCodeAt(i);
+            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
+              ++i;
+              len += 4;
+            } else len += 3;
+          }
+          return len;
         };
 
         /**
-         * Removes an event listener or any matching listeners if arguments are omitted.
-         * @param {string} [evt] Event name. Removes all listeners if omitted.
-         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
-         * @returns {util.EventEmitter} `this`
+         * Reads UTF8 bytes as a string.
+         * @param {Uint8Array} buffer Source buffer
+         * @param {number} start Source start
+         * @param {number} end Source end
+         * @returns {string} String read
          */
-        EventEmitter.prototype.off = function off(evt, fn) {
-          if (evt === undefined) this._listeners = {};else {
-            if (fn === undefined) this._listeners[evt] = [];else {
-              var listeners = this._listeners[evt];
-              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
+        utf8.read = function utf8_read(buffer, start, end) {
+          var len = end - start;
+          if (len < 1) return "";
+          var parts = null,
+            chunk = [],
+            i = 0,
+            // char offset
+            t; // temporary
+          while (start < end) {
+            t = buffer[start++];
+            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
+              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
+              chunk[i++] = 0xD800 + (t >> 10);
+              chunk[i++] = 0xDC00 + (t & 1023);
+            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
+            if (i > 8191) {
+              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+              i = 0;
             }
           }
-          return this;
+          if (parts) {
+            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+            return parts.join("");
+          }
+          return String.fromCharCode.apply(String, chunk.slice(0, i));
         };
 
         /**
-         * Emits an event by calling its listeners with the specified arguments.
-         * @param {string} evt Event name
-         * @param {...*} args Arguments
-         * @returns {util.EventEmitter} `this`
+         * Writes a string as UTF8 bytes.
+         * @param {string} string Source string
+         * @param {Uint8Array} buffer Destination buffer
+         * @param {number} offset Destination offset
+         * @returns {number} Bytes written
          */
-        EventEmitter.prototype.emit = function emit(evt) {
-          var listeners = this._listeners[evt];
-          if (listeners) {
-            var args = [],
-              i = 1;
-            for (; i < arguments.length;) args.push(arguments[i++]);
-            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
+        utf8.write = function utf8_write(string, buffer, offset) {
+          var start = offset,
+            c1,
+            // character 1
+            c2; // character 2
+          for (var i = 0; i < string.length; ++i) {
+            c1 = string.charCodeAt(i);
+            if (c1 < 128) {
+              buffer[offset++] = c1;
+            } else if (c1 < 2048) {
+              buffer[offset++] = c1 >> 6 | 192;
+              buffer[offset++] = c1 & 63 | 128;
+            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
+              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
+              ++i;
+              buffer[offset++] = c1 >> 18 | 240;
+              buffer[offset++] = c1 >> 12 & 63 | 128;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            } else {
+              buffer[offset++] = c1 >> 12 | 224;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            }
           }
-          return this;
+          return offset - start;
         };
 
         // #endregion ORIGINAL CODE
@@ -5437,7 +5437,7 @@ System.register("chunks:///_virtual/minimal.js", ['./cjs-loader.mjs', './index-m
   };
 });
 
-System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index8.js', './index5.js', './index7.js', './index4.js', './index6.js', './index3.js', './index9.js', './longbits.js'], function (exports, module) {
+System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index8.js', './index6.js', './index3.js', './index5.js', './index4.js', './index7.js', './index9.js', './longbits.js'], function (exports, module) {
   var loader, __cjsMetaURL$1, __cjsMetaURL$2, __cjsMetaURL$3, __cjsMetaURL$4, __cjsMetaURL$5, __cjsMetaURL$6, __cjsMetaURL$7, __cjsMetaURL$8;
   return {
     setters: [function (module) {
