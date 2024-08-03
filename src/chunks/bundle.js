@@ -2891,7 +2891,7 @@ System.register("chunks:///_virtual/index-minimal.js", ['./cjs-loader.mjs', './w
 });
 
 System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers.js'], function (exports) {
-  var _extends, _asyncToGenerator, _inheritsLoose, _assertThisInitialized, _wrapNativeSuper, _regeneratorRuntime, _createClass;
+  var _extends, _asyncToGenerator, _inheritsLoose, _assertThisInitialized, _wrapNativeSuper, _createClass, _regeneratorRuntime;
   return {
     setters: [function (module) {
       _extends = module.extends;
@@ -2899,8 +2899,8 @@ System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers
       _inheritsLoose = module.inheritsLoose;
       _assertThisInitialized = module.assertThisInitialized;
       _wrapNativeSuper = module.wrapNativeSuper;
-      _regeneratorRuntime = module.regeneratorRuntime;
       _createClass = module.createClass;
+      _regeneratorRuntime = module.regeneratorRuntime;
     }],
     execute: function () {
       exports({
@@ -3550,6 +3550,79 @@ System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers
           return n + (i.length === 1 ? "0" : "") + i;
         }, "#");
       }
+      var ut = /*#__PURE__*/function () {
+        function ut(e) {
+          c(this, "ee", new R());
+          /**
+           * Adds new event listener.
+           */
+          c(this, "on", this.ee.on.bind(this.ee));
+          /**
+           * Removes event listener.
+           */
+          c(this, "off", this.ee.off.bind(this.ee));
+          this.state = e;
+        }
+        /**
+         * Clones current state and returns its copy.
+         */
+        var _proto4 = ut.prototype;
+        _proto4.clone = function clone() {
+          return _extends({}, this.state);
+        };
+        _proto4.set = function set(e, t) {
+          var _ref6,
+            _this5 = this;
+          Object.entries(typeof e == "string" ? (_ref6 = {}, _ref6[e] = t, _ref6) : e).reduce(function (r, _ref7) {
+            var i = _ref7[0],
+              o = _ref7[1];
+            return _this5.state[i] === o || o === void 0 ? r : (_this5.state[i] = o, _this5.ee.emit("change:" + i, o), !0);
+          }, !1) && this.ee.emit("change", this.state);
+        }
+        /**
+         * Returns value by specified key.
+         * @param key - state key.
+         */;
+        _proto4.get = function get(e) {
+          return this.state[e];
+        };
+        return ut;
+      }();
+      var Y = function Y(e) {
+        c(this, "state");
+        /**
+         * Gets the state value.
+         */
+        c(this, "get");
+        /**
+         * Sets the state value.
+         */
+        c(this, "set");
+        /**
+         * Clones the current state.
+         */
+        c(this, "clone");
+        this.state = new ut(e), this.set = this.state.set.bind(this.state), this.get = this.state.get.bind(this.state), this.clone = this.state.clone.bind(this.state);
+      };
+      function ve(s, e) {
+        return function (t) {
+          return v(e[t], s);
+        };
+      }
+      var Z = /*#__PURE__*/function (_Y) {
+        _inheritsLoose(Z, _Y);
+        function Z(t, n, r) {
+          var _this6;
+          _this6 = _Y.call(this, t) || this;
+          /**
+           * @returns True, if specified method is supported by the current component.
+           */
+          c(_assertThisInitialized(_this6), "supports");
+          _this6.supports = ve(n, r);
+          return _this6;
+        }
+        return Z;
+      }(Y);
       var Ee = exports('date', S(function (s) {
         return s instanceof Date ? s : new Date(y().parse(s) * 1e3);
       }, "Date"));
@@ -3811,6 +3884,23 @@ System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers
           return [a instanceof Promise ? a.then(p) : p(a), i];
         };
       }
+      var P = /*#__PURE__*/function (_Z2) {
+        _inheritsLoose(P, _Z2);
+        function P() {
+          var _this8;
+          _this8 = _Z2.apply(this, arguments) || this;
+          /**
+           * Adds a new event listener.
+           */
+          c(_assertThisInitialized(_this8), "on", _this8.state.on.bind(_this8.state));
+          /**
+           * Removes the event listener.
+           */
+          c(_assertThisInitialized(_this8), "off", _this8.state.off.bind(_this8.state));
+          return _this8;
+        }
+        return P;
+      }(Z);
       var kt = exports('InitData', /*#__PURE__*/function () {
         function kt(e) {
           this.initData = e;
@@ -3911,6 +4001,57 @@ System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers
       var cs = exports('initInitData', l(function (_ref21) {
         var s = _ref21.initData;
         return s ? new kt(s) : void 0;
+      }));
+      var Ht = exports('SwipeBehavior', /*#__PURE__*/function (_P6) {
+        _inheritsLoose(Ht, _P6);
+        function Ht(e, t, n) {
+          var _this26;
+          _this26 = _P6.call(this, {
+            isVerticalSwipeEnabled: e
+          }, t, {
+            disableVerticalSwipe: "web_app_setup_swipe_behavior",
+            enableVerticalSwipe: "web_app_setup_swipe_behavior"
+          }) || this, _this26.postEvent = n;
+          return _this26;
+        }
+        var _proto17 = Ht.prototype;
+        /**
+         * Disables the vertical swipe.
+         */
+        _proto17.disableVerticalSwipe = function disableVerticalSwipe() {
+          this.isVerticalSwipeEnabled = !1;
+        }
+        /**
+         * Enables the vertical swipe.
+         */;
+        _proto17.enableVerticalSwipe = function enableVerticalSwipe() {
+          this.isVerticalSwipeEnabled = !0;
+        };
+        _createClass(Ht, [{
+          key: "isVerticalSwipeEnabled",
+          get:
+          /**
+           * True, if the vertical swipe enabled.
+           */
+          function get() {
+            return this.get("isVerticalSwipeEnabled");
+          },
+          set: function set(e) {
+            this.set("isVerticalSwipeEnabled", e), this.postEvent("web_app_setup_swipe_behavior", {
+              allow_vertical_swipe: e
+            });
+          }
+        }]);
+        return Ht;
+      }(P));
+      var gs = exports('initSwipeBehavior', l("swipeBehavior", function (_ref36) {
+        var s = _ref36.postEvent,
+          _ref36$state = _ref36.state,
+          e = _ref36$state === void 0 ? {
+            isVerticalSwipeEnabled: !0
+          } : _ref36$state,
+          t = _ref36.version;
+        return new Ht(e.isVerticalSwipeEnabled, t, s);
       }));
       function Cs() {
         return _Cs.apply(this, arguments);
@@ -4174,6 +4315,446 @@ System.register("chunks:///_virtual/index2.js", ['./core.js', './x64-core.js', '
 });
 
 System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = EventEmitter;
+
+        /**
+         * Constructs a new event emitter instance.
+         * @classdesc A minimal event emitter.
+         * @memberof util
+         * @constructor
+         */
+        function EventEmitter() {
+          /**
+           * Registered listeners.
+           * @type {Object.<string,*>}
+           * @private
+           */
+          this._listeners = {};
+        }
+
+        /**
+         * Registers an event listener.
+         * @param {string} evt Event name
+         * @param {function} fn Listener
+         * @param {*} [ctx] Listener context
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.on = function on(evt, fn, ctx) {
+          (this._listeners[evt] || (this._listeners[evt] = [])).push({
+            fn: fn,
+            ctx: ctx || this
+          });
+          return this;
+        };
+
+        /**
+         * Removes an event listener or any matching listeners if arguments are omitted.
+         * @param {string} [evt] Event name. Removes all listeners if omitted.
+         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.off = function off(evt, fn) {
+          if (evt === undefined) this._listeners = {};else {
+            if (fn === undefined) this._listeners[evt] = [];else {
+              var listeners = this._listeners[evt];
+              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
+            }
+          }
+          return this;
+        };
+
+        /**
+         * Emits an event by calling its listeners with the specified arguments.
+         * @param {string} evt Event name
+         * @param {...*} args Arguments
+         * @returns {util.EventEmitter} `this`
+         */
+        EventEmitter.prototype.emit = function emit(evt) {
+          var listeners = this._listeners[evt];
+          if (listeners) {
+            var args = [],
+              i = 1;
+            for (; i < arguments.length;) args.push(arguments[i++]);
+            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
+          }
+          return this;
+        };
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = inquire;
+
+        /**
+         * Requires a module only if available.
+         * @memberof util
+         * @param {string} moduleName Module to require
+         * @returns {?Object} Required module if available and not empty, otherwise `null`
+         */
+        function inquire(moduleName) {
+          try {
+            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
+            if (mod && (mod.length || Object.keys(mod).length)) return mod;
+          } catch (e) {} // eslint-disable-line no-empty
+          return null;
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = asPromise;
+
+        /**
+         * Callback as used by {@link util.asPromise}.
+         * @typedef asPromiseCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {...*} params Additional arguments
+         * @returns {undefined}
+         */
+
+        /**
+         * Returns a promise from a node-style callback function.
+         * @memberof util
+         * @param {asPromiseCallback} fn Function to call
+         * @param {*} ctx Function context
+         * @param {...*} params Function arguments
+         * @returns {Promise<*>} Promisified function
+         */
+        function asPromise(fn, ctx /*, varargs */) {
+          var params = new Array(arguments.length - 1),
+            offset = 0,
+            index = 2,
+            pending = true;
+          while (index < arguments.length) params[offset++] = arguments[index++];
+          return new Promise(function executor(resolve, reject) {
+            params[offset] = function callback(err /*, varargs */) {
+              if (pending) {
+                pending = false;
+                if (err) reject(err);else {
+                  var params = new Array(arguments.length - 1),
+                    offset = 0;
+                  while (offset < params.length) params[offset++] = arguments[offset];
+                  resolve.apply(null, params);
+                }
+              }
+            };
+            try {
+              fn.apply(ctx || null, params);
+            } catch (err) {
+              if (pending) {
+                pending = false;
+                reject(err);
+              }
+            }
+          });
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        /**
+         * A minimal base64 implementation for number arrays.
+         * @memberof util
+         * @namespace
+         */
+        var base64 = exports;
+
+        /**
+         * Calculates the byte length of a base64 encoded string.
+         * @param {string} string Base64 encoded string
+         * @returns {number} Byte length
+         */
+        base64.length = function length(string) {
+          var p = string.length;
+          if (!p) return 0;
+          var n = 0;
+          while (--p % 4 > 1 && string.charAt(p) === "=") ++n;
+          return Math.ceil(string.length * 3) / 4 - n;
+        };
+
+        // Base64 encoding table
+        var b64 = new Array(64);
+
+        // Base64 decoding table
+        var s64 = new Array(123);
+
+        // 65..90, 97..122, 48..57, 43, 47
+        for (var i = 0; i < 64;) s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
+
+        /**
+         * Encodes a buffer to a base64 encoded string.
+         * @param {Uint8Array} buffer Source buffer
+         * @param {number} start Source start
+         * @param {number} end Source end
+         * @returns {string} Base64 encoded string
+         */
+        base64.encode = function encode(buffer, start, end) {
+          var parts = null,
+            chunk = [];
+          var i = 0,
+            // output index
+            j = 0,
+            // goto index
+            t; // temporary
+          while (start < end) {
+            var b = buffer[start++];
+            switch (j) {
+              case 0:
+                chunk[i++] = b64[b >> 2];
+                t = (b & 3) << 4;
+                j = 1;
+                break;
+              case 1:
+                chunk[i++] = b64[t | b >> 4];
+                t = (b & 15) << 2;
+                j = 2;
+                break;
+              case 2:
+                chunk[i++] = b64[t | b >> 6];
+                chunk[i++] = b64[b & 63];
+                j = 0;
+                break;
+            }
+            if (i > 8191) {
+              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+              i = 0;
+            }
+          }
+          if (j) {
+            chunk[i++] = b64[t];
+            chunk[i++] = 61;
+            if (j === 1) chunk[i++] = 61;
+          }
+          if (parts) {
+            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+            return parts.join("");
+          }
+          return String.fromCharCode.apply(String, chunk.slice(0, i));
+        };
+        var invalidEncoding = "invalid encoding";
+
+        /**
+         * Decodes a base64 encoded string to a buffer.
+         * @param {string} string Source string
+         * @param {Uint8Array} buffer Destination buffer
+         * @param {number} offset Destination offset
+         * @returns {number} Number of bytes written
+         * @throws {Error} If encoding is invalid
+         */
+        base64.decode = function decode(string, buffer, offset) {
+          var start = offset;
+          var j = 0,
+            // goto index
+            t; // temporary
+          for (var i = 0; i < string.length;) {
+            var c = string.charCodeAt(i++);
+            if (c === 61 && j > 1) break;
+            if ((c = s64[c]) === undefined) throw Error(invalidEncoding);
+            switch (j) {
+              case 0:
+                t = c;
+                j = 1;
+                break;
+              case 1:
+                buffer[offset++] = t << 2 | (c & 48) >> 4;
+                t = c;
+                j = 2;
+                break;
+              case 2:
+                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
+                t = c;
+                j = 3;
+                break;
+              case 3:
+                buffer[offset++] = (t & 3) << 6 | c;
+                j = 0;
+                break;
+            }
+          }
+          if (j === 1) throw Error(invalidEncoding);
+          return offset - start;
+        };
+
+        /**
+         * Tests if the specified string appears to be base64 encoded.
+         * @param {string} string String to test
+         * @returns {boolean} `true` if probably base64 encoded, otherwise false
+         */
+        base64.test = function test(string) {
+          return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
+        };
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        /**
+         * A minimal UTF8 implementation for number arrays.
+         * @memberof util
+         * @namespace
+         */
+        var utf8 = exports;
+
+        /**
+         * Calculates the UTF8 byte length of a string.
+         * @param {string} string String
+         * @returns {number} Byte length
+         */
+        utf8.length = function utf8_length(string) {
+          var len = 0,
+            c = 0;
+          for (var i = 0; i < string.length; ++i) {
+            c = string.charCodeAt(i);
+            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
+              ++i;
+              len += 4;
+            } else len += 3;
+          }
+          return len;
+        };
+
+        /**
+         * Reads UTF8 bytes as a string.
+         * @param {Uint8Array} buffer Source buffer
+         * @param {number} start Source start
+         * @param {number} end Source end
+         * @returns {string} String read
+         */
+        utf8.read = function utf8_read(buffer, start, end) {
+          var len = end - start;
+          if (len < 1) return "";
+          var parts = null,
+            chunk = [],
+            i = 0,
+            // char offset
+            t; // temporary
+          while (start < end) {
+            t = buffer[start++];
+            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
+              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
+              chunk[i++] = 0xD800 + (t >> 10);
+              chunk[i++] = 0xDC00 + (t & 1023);
+            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
+            if (i > 8191) {
+              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+              i = 0;
+            }
+          }
+          if (parts) {
+            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+            return parts.join("");
+          }
+          return String.fromCharCode.apply(String, chunk.slice(0, i));
+        };
+
+        /**
+         * Writes a string as UTF8 bytes.
+         * @param {string} string Source string
+         * @param {Uint8Array} buffer Destination buffer
+         * @param {number} offset Destination offset
+         * @returns {number} Bytes written
+         */
+        utf8.write = function utf8_write(string, buffer, offset) {
+          var start = offset,
+            c1,
+            // character 1
+            c2; // character 2
+          for (var i = 0; i < string.length; ++i) {
+            c1 = string.charCodeAt(i);
+            if (c1 < 128) {
+              buffer[offset++] = c1;
+            } else if (c1 < 2048) {
+              buffer[offset++] = c1 >> 6 | 192;
+              buffer[offset++] = c1 & 63 | 128;
+            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
+              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
+              ++i;
+              buffer[offset++] = c1 >> 18 | 240;
+              buffer[offset++] = c1 >> 12 & 63 | 128;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            } else {
+              buffer[offset++] = c1 >> 12 | 224;
+              buffer[offset++] = c1 >> 6 & 63 | 128;
+              buffer[offset++] = c1 & 63 | 128;
+            }
+          }
+          return offset - start;
+        };
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
+System.register("chunks:///_virtual/index8.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -4486,267 +5067,7 @@ System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (
   };
 });
 
-System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        /**
-         * A minimal base64 implementation for number arrays.
-         * @memberof util
-         * @namespace
-         */
-        var base64 = exports;
-
-        /**
-         * Calculates the byte length of a base64 encoded string.
-         * @param {string} string Base64 encoded string
-         * @returns {number} Byte length
-         */
-        base64.length = function length(string) {
-          var p = string.length;
-          if (!p) return 0;
-          var n = 0;
-          while (--p % 4 > 1 && string.charAt(p) === "=") ++n;
-          return Math.ceil(string.length * 3) / 4 - n;
-        };
-
-        // Base64 encoding table
-        var b64 = new Array(64);
-
-        // Base64 decoding table
-        var s64 = new Array(123);
-
-        // 65..90, 97..122, 48..57, 43, 47
-        for (var i = 0; i < 64;) s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
-
-        /**
-         * Encodes a buffer to a base64 encoded string.
-         * @param {Uint8Array} buffer Source buffer
-         * @param {number} start Source start
-         * @param {number} end Source end
-         * @returns {string} Base64 encoded string
-         */
-        base64.encode = function encode(buffer, start, end) {
-          var parts = null,
-            chunk = [];
-          var i = 0,
-            // output index
-            j = 0,
-            // goto index
-            t; // temporary
-          while (start < end) {
-            var b = buffer[start++];
-            switch (j) {
-              case 0:
-                chunk[i++] = b64[b >> 2];
-                t = (b & 3) << 4;
-                j = 1;
-                break;
-              case 1:
-                chunk[i++] = b64[t | b >> 4];
-                t = (b & 15) << 2;
-                j = 2;
-                break;
-              case 2:
-                chunk[i++] = b64[t | b >> 6];
-                chunk[i++] = b64[b & 63];
-                j = 0;
-                break;
-            }
-            if (i > 8191) {
-              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-              i = 0;
-            }
-          }
-          if (j) {
-            chunk[i++] = b64[t];
-            chunk[i++] = 61;
-            if (j === 1) chunk[i++] = 61;
-          }
-          if (parts) {
-            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-            return parts.join("");
-          }
-          return String.fromCharCode.apply(String, chunk.slice(0, i));
-        };
-        var invalidEncoding = "invalid encoding";
-
-        /**
-         * Decodes a base64 encoded string to a buffer.
-         * @param {string} string Source string
-         * @param {Uint8Array} buffer Destination buffer
-         * @param {number} offset Destination offset
-         * @returns {number} Number of bytes written
-         * @throws {Error} If encoding is invalid
-         */
-        base64.decode = function decode(string, buffer, offset) {
-          var start = offset;
-          var j = 0,
-            // goto index
-            t; // temporary
-          for (var i = 0; i < string.length;) {
-            var c = string.charCodeAt(i++);
-            if (c === 61 && j > 1) break;
-            if ((c = s64[c]) === undefined) throw Error(invalidEncoding);
-            switch (j) {
-              case 0:
-                t = c;
-                j = 1;
-                break;
-              case 1:
-                buffer[offset++] = t << 2 | (c & 48) >> 4;
-                t = c;
-                j = 2;
-                break;
-              case 2:
-                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
-                t = c;
-                j = 3;
-                break;
-              case 3:
-                buffer[offset++] = (t & 3) << 6 | c;
-                j = 0;
-                break;
-            }
-          }
-          if (j === 1) throw Error(invalidEncoding);
-          return offset - start;
-        };
-
-        /**
-         * Tests if the specified string appears to be base64 encoded.
-         * @param {string} string String to test
-         * @returns {boolean} `true` if probably base64 encoded, otherwise false
-         */
-        base64.test = function test(string) {
-          return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
-        };
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        /**
-         * A minimal UTF8 implementation for number arrays.
-         * @memberof util
-         * @namespace
-         */
-        var utf8 = exports;
-
-        /**
-         * Calculates the UTF8 byte length of a string.
-         * @param {string} string String
-         * @returns {number} Byte length
-         */
-        utf8.length = function utf8_length(string) {
-          var len = 0,
-            c = 0;
-          for (var i = 0; i < string.length; ++i) {
-            c = string.charCodeAt(i);
-            if (c < 128) len += 1;else if (c < 2048) len += 2;else if ((c & 0xFC00) === 0xD800 && (string.charCodeAt(i + 1) & 0xFC00) === 0xDC00) {
-              ++i;
-              len += 4;
-            } else len += 3;
-          }
-          return len;
-        };
-
-        /**
-         * Reads UTF8 bytes as a string.
-         * @param {Uint8Array} buffer Source buffer
-         * @param {number} start Source start
-         * @param {number} end Source end
-         * @returns {string} String read
-         */
-        utf8.read = function utf8_read(buffer, start, end) {
-          var len = end - start;
-          if (len < 1) return "";
-          var parts = null,
-            chunk = [],
-            i = 0,
-            // char offset
-            t; // temporary
-          while (start < end) {
-            t = buffer[start++];
-            if (t < 128) chunk[i++] = t;else if (t > 191 && t < 224) chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;else if (t > 239 && t < 365) {
-              t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 0x10000;
-              chunk[i++] = 0xD800 + (t >> 10);
-              chunk[i++] = 0xDC00 + (t & 1023);
-            } else chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
-            if (i > 8191) {
-              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-              i = 0;
-            }
-          }
-          if (parts) {
-            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-            return parts.join("");
-          }
-          return String.fromCharCode.apply(String, chunk.slice(0, i));
-        };
-
-        /**
-         * Writes a string as UTF8 bytes.
-         * @param {string} string Source string
-         * @param {Uint8Array} buffer Destination buffer
-         * @param {number} offset Destination offset
-         * @returns {number} Bytes written
-         */
-        utf8.write = function utf8_write(string, buffer, offset) {
-          var start = offset,
-            c1,
-            // character 1
-            c2; // character 2
-          for (var i = 0; i < string.length; ++i) {
-            c1 = string.charCodeAt(i);
-            if (c1 < 128) {
-              buffer[offset++] = c1;
-            } else if (c1 < 2048) {
-              buffer[offset++] = c1 >> 6 | 192;
-              buffer[offset++] = c1 & 63 | 128;
-            } else if ((c1 & 0xFC00) === 0xD800 && ((c2 = string.charCodeAt(i + 1)) & 0xFC00) === 0xDC00) {
-              c1 = 0x10000 + ((c1 & 0x03FF) << 10) + (c2 & 0x03FF);
-              ++i;
-              buffer[offset++] = c1 >> 18 | 240;
-              buffer[offset++] = c1 >> 12 & 63 | 128;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            } else {
-              buffer[offset++] = c1 >> 12 | 224;
-              buffer[offset++] = c1 >> 6 & 63 | 128;
-              buffer[offset++] = c1 & 63 | 128;
-            }
-          }
-          return offset - start;
-        };
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (exports, module) {
+System.register("chunks:///_virtual/index9.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
     setters: [function (module) {
@@ -4801,186 +5122,6 @@ System.register("chunks:///_virtual/index6.js", ['./cjs-loader.mjs'], function (
               offset = (offset | 7) + 1;
             return buf;
           };
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index7.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = asPromise;
-
-        /**
-         * Callback as used by {@link util.asPromise}.
-         * @typedef asPromiseCallback
-         * @type {function}
-         * @param {Error|null} error Error, if any
-         * @param {...*} params Additional arguments
-         * @returns {undefined}
-         */
-
-        /**
-         * Returns a promise from a node-style callback function.
-         * @memberof util
-         * @param {asPromiseCallback} fn Function to call
-         * @param {*} ctx Function context
-         * @param {...*} params Function arguments
-         * @returns {Promise<*>} Promisified function
-         */
-        function asPromise(fn, ctx /*, varargs */) {
-          var params = new Array(arguments.length - 1),
-            offset = 0,
-            index = 2,
-            pending = true;
-          while (index < arguments.length) params[offset++] = arguments[index++];
-          return new Promise(function executor(resolve, reject) {
-            params[offset] = function callback(err /*, varargs */) {
-              if (pending) {
-                pending = false;
-                if (err) reject(err);else {
-                  var params = new Array(arguments.length - 1),
-                    offset = 0;
-                  while (offset < params.length) params[offset++] = arguments[offset];
-                  resolve.apply(null, params);
-                }
-              }
-            };
-            try {
-              fn.apply(ctx || null, params);
-            } catch (err) {
-              if (pending) {
-                pending = false;
-                reject(err);
-              }
-            }
-          });
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index8.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = EventEmitter;
-
-        /**
-         * Constructs a new event emitter instance.
-         * @classdesc A minimal event emitter.
-         * @memberof util
-         * @constructor
-         */
-        function EventEmitter() {
-          /**
-           * Registered listeners.
-           * @type {Object.<string,*>}
-           * @private
-           */
-          this._listeners = {};
-        }
-
-        /**
-         * Registers an event listener.
-         * @param {string} evt Event name
-         * @param {function} fn Listener
-         * @param {*} [ctx] Listener context
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.on = function on(evt, fn, ctx) {
-          (this._listeners[evt] || (this._listeners[evt] = [])).push({
-            fn: fn,
-            ctx: ctx || this
-          });
-          return this;
-        };
-
-        /**
-         * Removes an event listener or any matching listeners if arguments are omitted.
-         * @param {string} [evt] Event name. Removes all listeners if omitted.
-         * @param {function} [fn] Listener to remove. Removes all listeners of `evt` if omitted.
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.off = function off(evt, fn) {
-          if (evt === undefined) this._listeners = {};else {
-            if (fn === undefined) this._listeners[evt] = [];else {
-              var listeners = this._listeners[evt];
-              for (var i = 0; i < listeners.length;) if (listeners[i].fn === fn) listeners.splice(i, 1);else ++i;
-            }
-          }
-          return this;
-        };
-
-        /**
-         * Emits an event by calling its listeners with the specified arguments.
-         * @param {string} evt Event name
-         * @param {...*} args Arguments
-         * @returns {util.EventEmitter} `this`
-         */
-        EventEmitter.prototype.emit = function emit(evt) {
-          var listeners = this._listeners[evt];
-          if (listeners) {
-            var args = [],
-              i = 1;
-            for (; i < arguments.length;) args.push(arguments[i++]);
-            for (i = 0; i < listeners.length;) listeners[i].fn.apply(listeners[i++].ctx, args);
-          }
-          return this;
-        };
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index9.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = inquire;
-
-        /**
-         * Requires a module only if available.
-         * @memberof util
-         * @param {string} moduleName Module to require
-         * @returns {?Object} Required module if available and not empty, otherwise `null`
-         */
-        function inquire(moduleName) {
-          try {
-            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
-            if (mod && (mod.length || Object.keys(mod).length)) return mod;
-          } catch (e) {} // eslint-disable-line no-empty
-          return null;
         }
 
         // #endregion ORIGINAL CODE
@@ -5437,7 +5578,7 @@ System.register("chunks:///_virtual/minimal.js", ['./cjs-loader.mjs', './index-m
   };
 });
 
-System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index7.js', './index4.js', './index8.js', './index3.js', './index9.js', './index5.js', './index6.js', './longbits.js'], function (exports, module) {
+System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index5.js', './index6.js', './index3.js', './index8.js', './index4.js', './index7.js', './index9.js', './longbits.js'], function (exports, module) {
   var loader, __cjsMetaURL$1, __cjsMetaURL$2, __cjsMetaURL$3, __cjsMetaURL$4, __cjsMetaURL$5, __cjsMetaURL$6, __cjsMetaURL$7, __cjsMetaURL$8;
   return {
     setters: [function (module) {
