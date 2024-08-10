@@ -3909,6 +3909,71 @@ System.register("chunks:///_virtual/index.js", ['./rollupPluginModLoBabelHelpers
         }
         return P;
       }(Z);
+      var ee = /*#__PURE__*/function (_Y2) {
+        _inheritsLoose(ee, _Y2);
+        function ee() {
+          var _this12;
+          _this12 = _Y2.apply(this, arguments) || this;
+          /**
+           * Adds a new event listener.
+           */
+          c(_assertThisInitialized(_this12), "on", _this12.state.on.bind(_this12.state));
+          /**
+           * Removes the event listener.
+           */
+          c(_assertThisInitialized(_this12), "off", _this12.state.off.bind(_this12.state));
+          return _this12;
+        }
+        return ee;
+      }(Y);
+      var Ct = exports('ClosingBehavior', /*#__PURE__*/function (_ee) {
+        _inheritsLoose(Ct, _ee);
+        function Ct(e, t) {
+          var _this13;
+          _this13 = _ee.call(this, {
+            isConfirmationNeeded: e
+          }) || this, _this13.postEvent = t;
+          return _this13;
+        }
+        var _proto7 = Ct.prototype;
+        /**
+         * Disables the confirmation dialog when closing the Mini App.
+         */
+        _proto7.disableConfirmation = function disableConfirmation() {
+          this.isConfirmationNeeded = !1;
+        }
+        /**
+         * Enables the confirmation dialog when closing the Mini App.
+         */;
+        _proto7.enableConfirmation = function enableConfirmation() {
+          this.isConfirmationNeeded = !0;
+        };
+        _createClass(Ct, [{
+          key: "isConfirmationNeeded",
+          get:
+          /**
+           * True, if the confirmation dialog should be shown while the user is trying to close
+           * the Mini App.
+           */
+          function get() {
+            return this.get("isConfirmationNeeded");
+          },
+          set: function set(e) {
+            this.set("isConfirmationNeeded", e), this.postEvent("web_app_setup_closing_behavior", {
+              need_confirmation: e
+            });
+          }
+        }]);
+        return Ct;
+      }(ee));
+      var is = exports('initClosingBehavior', l("closingBehavior", function (_ref18) {
+        var s = _ref18.postEvent,
+          _ref18$state = _ref18.state,
+          e = _ref18$state === void 0 ? {
+            isConfirmationNeeded: !1
+          } : _ref18$state;
+        return new Ct(e.isConfirmationNeeded, s);
+      }));
       var te = function te(e, t) {
         /**
          * @returns True, if specified method is supported by the current component.
@@ -4469,39 +4534,6 @@ System.register("chunks:///_virtual/index3.js", ['./cjs-loader.mjs'], function (
     execute: function () {
       var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
       loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = inquire;
-
-        /**
-         * Requires a module only if available.
-         * @memberof util
-         * @param {string} moduleName Module to require
-         * @returns {?Object} Required module if available and not empty, otherwise `null`
-         */
-        function inquire(moduleName) {
-          try {
-            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
-            if (mod && (mod.length || Object.keys(mod).length)) return mod;
-          } catch (e) {} // eslint-disable-line no-empty
-          return null;
-        }
-
-        // #endregion ORIGINAL CODE
-
-        module.exports;
-      }, {});
-    }
-  };
-});
-
-System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
-  var loader;
-  return {
-    setters: [function (module) {
-      loader = module.default;
-    }],
-    execute: function () {
-      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
-      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
         module.exports = factory(factory);
 
         /**
@@ -4806,6 +4838,39 @@ System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (
   };
 });
 
+System.register("chunks:///_virtual/index4.js", ['./cjs-loader.mjs'], function (exports, module) {
+  var loader;
+  return {
+    setters: [function (module) {
+      loader = module.default;
+    }],
+    execute: function () {
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = inquire;
+
+        /**
+         * Requires a module only if available.
+         * @memberof util
+         * @param {string} moduleName Module to require
+         * @returns {?Object} Required module if available and not empty, otherwise `null`
+         */
+        function inquire(moduleName) {
+          try {
+            var mod = eval("quire".replace(/^/, "re"))(moduleName); // eslint-disable-line no-eval
+            if (mod && (mod.length || Object.keys(mod).length)) return mod;
+          } catch (e) {} // eslint-disable-line no-empty
+          return null;
+        }
+
+        // #endregion ORIGINAL CODE
+
+        module.exports;
+      }, {});
+    }
+  };
+});
+
 System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (exports, module) {
   var loader;
   return {
@@ -4815,53 +4880,137 @@ System.register("chunks:///_virtual/index5.js", ['./cjs-loader.mjs'], function (
     execute: function () {
       var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
       loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
-        module.exports = asPromise;
-
         /**
-         * Callback as used by {@link util.asPromise}.
-         * @typedef asPromiseCallback
-         * @type {function}
-         * @param {Error|null} error Error, if any
-         * @param {...*} params Additional arguments
-         * @returns {undefined}
-         */
-
-        /**
-         * Returns a promise from a node-style callback function.
+         * A minimal base64 implementation for number arrays.
          * @memberof util
-         * @param {asPromiseCallback} fn Function to call
-         * @param {*} ctx Function context
-         * @param {...*} params Function arguments
-         * @returns {Promise<*>} Promisified function
+         * @namespace
          */
-        function asPromise(fn, ctx /*, varargs */) {
-          var params = new Array(arguments.length - 1),
-            offset = 0,
-            index = 2,
-            pending = true;
-          while (index < arguments.length) params[offset++] = arguments[index++];
-          return new Promise(function executor(resolve, reject) {
-            params[offset] = function callback(err /*, varargs */) {
-              if (pending) {
-                pending = false;
-                if (err) reject(err);else {
-                  var params = new Array(arguments.length - 1),
-                    offset = 0;
-                  while (offset < params.length) params[offset++] = arguments[offset];
-                  resolve.apply(null, params);
-                }
-              }
-            };
-            try {
-              fn.apply(ctx || null, params);
-            } catch (err) {
-              if (pending) {
-                pending = false;
-                reject(err);
-              }
+        var base64 = exports;
+
+        /**
+         * Calculates the byte length of a base64 encoded string.
+         * @param {string} string Base64 encoded string
+         * @returns {number} Byte length
+         */
+        base64.length = function length(string) {
+          var p = string.length;
+          if (!p) return 0;
+          var n = 0;
+          while (--p % 4 > 1 && string.charAt(p) === "=") ++n;
+          return Math.ceil(string.length * 3) / 4 - n;
+        };
+
+        // Base64 encoding table
+        var b64 = new Array(64);
+
+        // Base64 decoding table
+        var s64 = new Array(123);
+
+        // 65..90, 97..122, 48..57, 43, 47
+        for (var i = 0; i < 64;) s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
+
+        /**
+         * Encodes a buffer to a base64 encoded string.
+         * @param {Uint8Array} buffer Source buffer
+         * @param {number} start Source start
+         * @param {number} end Source end
+         * @returns {string} Base64 encoded string
+         */
+        base64.encode = function encode(buffer, start, end) {
+          var parts = null,
+            chunk = [];
+          var i = 0,
+            // output index
+            j = 0,
+            // goto index
+            t; // temporary
+          while (start < end) {
+            var b = buffer[start++];
+            switch (j) {
+              case 0:
+                chunk[i++] = b64[b >> 2];
+                t = (b & 3) << 4;
+                j = 1;
+                break;
+              case 1:
+                chunk[i++] = b64[t | b >> 4];
+                t = (b & 15) << 2;
+                j = 2;
+                break;
+              case 2:
+                chunk[i++] = b64[t | b >> 6];
+                chunk[i++] = b64[b & 63];
+                j = 0;
+                break;
             }
-          });
-        }
+            if (i > 8191) {
+              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+              i = 0;
+            }
+          }
+          if (j) {
+            chunk[i++] = b64[t];
+            chunk[i++] = 61;
+            if (j === 1) chunk[i++] = 61;
+          }
+          if (parts) {
+            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+            return parts.join("");
+          }
+          return String.fromCharCode.apply(String, chunk.slice(0, i));
+        };
+        var invalidEncoding = "invalid encoding";
+
+        /**
+         * Decodes a base64 encoded string to a buffer.
+         * @param {string} string Source string
+         * @param {Uint8Array} buffer Destination buffer
+         * @param {number} offset Destination offset
+         * @returns {number} Number of bytes written
+         * @throws {Error} If encoding is invalid
+         */
+        base64.decode = function decode(string, buffer, offset) {
+          var start = offset;
+          var j = 0,
+            // goto index
+            t; // temporary
+          for (var i = 0; i < string.length;) {
+            var c = string.charCodeAt(i++);
+            if (c === 61 && j > 1) break;
+            if ((c = s64[c]) === undefined) throw Error(invalidEncoding);
+            switch (j) {
+              case 0:
+                t = c;
+                j = 1;
+                break;
+              case 1:
+                buffer[offset++] = t << 2 | (c & 48) >> 4;
+                t = c;
+                j = 2;
+                break;
+              case 2:
+                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
+                t = c;
+                j = 3;
+                break;
+              case 3:
+                buffer[offset++] = (t & 3) << 6 | c;
+                j = 0;
+                break;
+            }
+          }
+          if (j === 1) throw Error(invalidEncoding);
+          return offset - start;
+        };
+
+        /**
+         * Tests if the specified string appears to be base64 encoded.
+         * @param {string} string String to test
+         * @returns {boolean} `true` if probably base64 encoded, otherwise false
+         */
+        base64.test = function test(string) {
+          return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
+        };
 
         // #endregion ORIGINAL CODE
 
@@ -5073,137 +5222,53 @@ System.register("chunks:///_virtual/index8.js", ['./cjs-loader.mjs'], function (
     execute: function () {
       var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
       loader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        module.exports = asPromise;
+
         /**
-         * A minimal base64 implementation for number arrays.
+         * Callback as used by {@link util.asPromise}.
+         * @typedef asPromiseCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {...*} params Additional arguments
+         * @returns {undefined}
+         */
+
+        /**
+         * Returns a promise from a node-style callback function.
          * @memberof util
-         * @namespace
+         * @param {asPromiseCallback} fn Function to call
+         * @param {*} ctx Function context
+         * @param {...*} params Function arguments
+         * @returns {Promise<*>} Promisified function
          */
-        var base64 = exports;
-
-        /**
-         * Calculates the byte length of a base64 encoded string.
-         * @param {string} string Base64 encoded string
-         * @returns {number} Byte length
-         */
-        base64.length = function length(string) {
-          var p = string.length;
-          if (!p) return 0;
-          var n = 0;
-          while (--p % 4 > 1 && string.charAt(p) === "=") ++n;
-          return Math.ceil(string.length * 3) / 4 - n;
-        };
-
-        // Base64 encoding table
-        var b64 = new Array(64);
-
-        // Base64 decoding table
-        var s64 = new Array(123);
-
-        // 65..90, 97..122, 48..57, 43, 47
-        for (var i = 0; i < 64;) s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
-
-        /**
-         * Encodes a buffer to a base64 encoded string.
-         * @param {Uint8Array} buffer Source buffer
-         * @param {number} start Source start
-         * @param {number} end Source end
-         * @returns {string} Base64 encoded string
-         */
-        base64.encode = function encode(buffer, start, end) {
-          var parts = null,
-            chunk = [];
-          var i = 0,
-            // output index
-            j = 0,
-            // goto index
-            t; // temporary
-          while (start < end) {
-            var b = buffer[start++];
-            switch (j) {
-              case 0:
-                chunk[i++] = b64[b >> 2];
-                t = (b & 3) << 4;
-                j = 1;
-                break;
-              case 1:
-                chunk[i++] = b64[t | b >> 4];
-                t = (b & 15) << 2;
-                j = 2;
-                break;
-              case 2:
-                chunk[i++] = b64[t | b >> 6];
-                chunk[i++] = b64[b & 63];
-                j = 0;
-                break;
+        function asPromise(fn, ctx /*, varargs */) {
+          var params = new Array(arguments.length - 1),
+            offset = 0,
+            index = 2,
+            pending = true;
+          while (index < arguments.length) params[offset++] = arguments[index++];
+          return new Promise(function executor(resolve, reject) {
+            params[offset] = function callback(err /*, varargs */) {
+              if (pending) {
+                pending = false;
+                if (err) reject(err);else {
+                  var params = new Array(arguments.length - 1),
+                    offset = 0;
+                  while (offset < params.length) params[offset++] = arguments[offset];
+                  resolve.apply(null, params);
+                }
+              }
+            };
+            try {
+              fn.apply(ctx || null, params);
+            } catch (err) {
+              if (pending) {
+                pending = false;
+                reject(err);
+              }
             }
-            if (i > 8191) {
-              (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
-              i = 0;
-            }
-          }
-          if (j) {
-            chunk[i++] = b64[t];
-            chunk[i++] = 61;
-            if (j === 1) chunk[i++] = 61;
-          }
-          if (parts) {
-            if (i) parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
-            return parts.join("");
-          }
-          return String.fromCharCode.apply(String, chunk.slice(0, i));
-        };
-        var invalidEncoding = "invalid encoding";
-
-        /**
-         * Decodes a base64 encoded string to a buffer.
-         * @param {string} string Source string
-         * @param {Uint8Array} buffer Destination buffer
-         * @param {number} offset Destination offset
-         * @returns {number} Number of bytes written
-         * @throws {Error} If encoding is invalid
-         */
-        base64.decode = function decode(string, buffer, offset) {
-          var start = offset;
-          var j = 0,
-            // goto index
-            t; // temporary
-          for (var i = 0; i < string.length;) {
-            var c = string.charCodeAt(i++);
-            if (c === 61 && j > 1) break;
-            if ((c = s64[c]) === undefined) throw Error(invalidEncoding);
-            switch (j) {
-              case 0:
-                t = c;
-                j = 1;
-                break;
-              case 1:
-                buffer[offset++] = t << 2 | (c & 48) >> 4;
-                t = c;
-                j = 2;
-                break;
-              case 2:
-                buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
-                t = c;
-                j = 3;
-                break;
-              case 3:
-                buffer[offset++] = (t & 3) << 6 | c;
-                j = 0;
-                break;
-            }
-          }
-          if (j === 1) throw Error(invalidEncoding);
-          return offset - start;
-        };
-
-        /**
-         * Tests if the specified string appears to be base64 encoded.
-         * @param {string} string String to test
-         * @returns {boolean} `true` if probably base64 encoded, otherwise false
-         */
-        base64.test = function test(string) {
-          return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
-        };
+          });
+        }
 
         // #endregion ORIGINAL CODE
 
@@ -5724,7 +5789,7 @@ System.register("chunks:///_virtual/minimal.js", ['./cjs-loader.mjs', './index-m
   };
 });
 
-System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index5.js', './index8.js', './index7.js', './index4.js', './index3.js', './index6.js', './index9.js', './longbits.js'], function (exports, module) {
+System.register("chunks:///_virtual/minimal2.js", ['./cjs-loader.mjs', './index8.js', './index5.js', './index7.js', './index3.js', './index4.js', './index6.js', './index9.js', './longbits.js'], function (exports, module) {
   var loader, __cjsMetaURL$1, __cjsMetaURL$2, __cjsMetaURL$3, __cjsMetaURL$4, __cjsMetaURL$5, __cjsMetaURL$6, __cjsMetaURL$7, __cjsMetaURL$8;
   return {
     setters: [function (module) {
